@@ -1,6 +1,7 @@
 import axios from "../../utils/axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import noimage from "/noimage.jpg";
 
 const Topnav = () => {
   const [query, setQuery] = useState("");
@@ -20,7 +21,7 @@ const Topnav = () => {
   }, [query]);
 
   return (
-    <div className="w-full h-[10vh] relative flex justify-start items-center gap-4 ml-[17%]">
+    <div className="w-[80%] h-[10vh] relative flex mx-auto items-center gap-4">
       <i className="text-zinc-400 text-2xl ri-search-line"></i>
       <input
         onChange={(e) => setQuery(e.target.value)}
@@ -37,13 +38,23 @@ const Topnav = () => {
         ></i>
       )}
 
-      <div className="w-[50%] max-h-[50vh] absolute top-[100%] bg-zinc-200 overflow-auto rounded">
+      <div className="w-[50%] max-h-[50vh] absolute top-[100%] left-[7%] bg-zinc-200 overflow-auto rounded">
         {searches.map((search, index) => (
           <Link
             key={index}
             className="flex bg-zinc-100 p-5 justify-start items-center text-zinc-600 border-b-2 border-zinc-100 font-semibold hover:text-black hover:bg-zinc-300 duration-300"
           >
-            <img src="" alt="" />
+            <img
+              className="h-[13vh] w-[13vh] object-cover rounded shadow-lg mr-7"
+              src={
+                search.backdrop_path || search.profile_path
+                  ? `https://image.tmdb.org/t/p/original/${
+                      search.backdrop_path || search.profile_path
+                    }`
+                  : noimage
+              }
+              alt=""
+            />
             <span>{search.original_title || search.name}</span>
           </Link>
         ))}
