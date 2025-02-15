@@ -3,10 +3,12 @@ import Header from "./partials/Header";
 import SideNav from "./partials/SideNav";
 import Topnav from "./partials/Topnav";
 import axios from "../utils/axios";
+import HorizontalCards from "./partials/HorizontalCards";
 
 const Home = () => {
   document.title = "PreScreen | Home";
-  const [wallpaper, setWallpaper] = useState();
+  const [wallpaper, setWallpaper] = useState(null);
+  const [trending, setTrending] = useState(null);
 
   const getHeaderWallpaper = async () => {
     try {
@@ -19,16 +21,29 @@ const Home = () => {
     }
   };
 
+  const getTrending = async () => {
+    try {
+      const { data } = await axios.get(`trending/all/day`);
+      setTrending(data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     !wallpaper && getHeaderWallpaper();
+    !trending && getTrending();
   }, []);
+
+  console.log(trending);
 
   return wallpaper ? (
     <>
       <SideNav />
-      <div className="w-[80%] h-full ">
+      <div className="w-[80%] h-full overflow-x-hidden overflow-auto">
         <Topnav />
         <Header data={wallpaper} />
+        <HorizontalCards data={trending} />
       </div>
     </>
   ) : (
