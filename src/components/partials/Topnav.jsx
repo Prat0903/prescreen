@@ -27,6 +27,7 @@ const Topnav = () => {
         onChange={(e) => setQuery(e.target.value)}
         className="text-zinc-200 w-[50%] outline-none border-none text-lg p-3 mx-5"
         type="text"
+        name="search"
         value={query}
         placeholder="search anything..."
       />

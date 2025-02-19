@@ -10,13 +10,23 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const Trending = () => {
   const [category, setCategory] = useState("all");
   const [duration, setDuration] = useState("day");
-  const [trending, setTrending] = useState(null);
+  const [trending, setTrending] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const navigate = useNavigate();
 
   const getTrending = async () => {
     try {
-      const { data } = await axios.get(`trending/${category}/${duration}`);
-      setTrending(data.results);
+      const { data } = await axios.get(
+        `trending/${category}/${duration}?page=${page}`
+      );
+
+      if (data.results.length > 0) {
+        setTrending((prevState) => [...prevState, ...data.results]);
+        setPage(page + 1);
+      } else {
+        setHasMore(false);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -24,8 +34,17 @@ const Trending = () => {
 
   console.log(trending);
 
+  const refreshHandler = () => {
+    if (trending.length === 0) getTrending();
+    else {
+      setPage(1);
+      setTrending([]);
+      getTrending();
+    }
+  };
+
   useEffect(() => {
-    getTrending();
+    refreshHandler();
   }, [category, duration]);
 
   return trending ? (
@@ -54,7 +73,14 @@ const Trending = () => {
         </div>
       </div>
 
-      <Cards data={trending} title={category} />
+      <InfiniteScroll
+        dataLength={trending.length}
+        next={getTrending()}
+        hasMore={hasMore}
+        loader={<h1 className="text-white">Loading...</h1>}
+      >
+        <Cards data={trending} title={category} />
+      </InfiniteScroll>
     </div>
   ) : (
     <Loading />
