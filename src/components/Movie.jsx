@@ -7,21 +7,21 @@ import Dropdown from "./partials/Dropdown";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Cards from "./partials/Cards";
 
-const Popular = () => {
-  document.title = "Prescreen | Popular";
+const Movie = () => {
+  document.title = "Prescreen | Movies";
 
-  const [category, setCategory] = useState("movie");
-  const [popular, setPopular] = useState([]);
+  const [category, setCategory] = useState("now_playing");
+  const [movie, setMovie] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const navigate = useNavigate();
 
-  const getPopular = async () => {
+  const getMovie = async () => {
     try {
-      const { data } = await axios.get(`${category}/popular?page=${page}`);
+      const { data } = await axios.get(`movie/${category}?page=${page}`);
 
       if (data.results.length > 0) {
-        setPopular((prevState) => [...prevState, ...data.results]);
+        setMovie((prevState) => [...prevState, ...data.results]);
         setPage(page + 1);
       } else {
         setHasMore(false);
@@ -32,11 +32,11 @@ const Popular = () => {
   };
 
   const refreshHandler = () => {
-    if (popular.length === 0) getPopular();
+    if (movie.length === 0) getMovie();
     else {
       setPage(1);
-      setPopular([]);
-      getPopular();
+      setMovie([]);
+      getMovie();
     }
   };
 
@@ -44,7 +44,7 @@ const Popular = () => {
     refreshHandler();
   }, [category]);
 
-  return popular.length > 0 ? (
+  return movie.length > 0 ? (
     <div className="w-screen h-screen px-[3%] py-[1%] overflow-hidden overflow-y-auto">
       <div className="w-full flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-zinc-300">
@@ -52,13 +52,13 @@ const Popular = () => {
             onClick={() => navigate(-1)}
             className="hover:text-[#6556CD] ri-arrow-left-line"
           ></i>{" "}
-          Popular
+          Movies
         </h1>
         <div className="w-[80%] flex items-center">
           <Topnav />
           <Dropdown
             title="Category"
-            options={["tv", "movie"]}
+            options={["popular", "top_rated", "upcoming", "now_playing"]}
             func={(e) => setCategory(e.target.value)}
           />
           <div className="w-[2%]"></div>
@@ -66,12 +66,12 @@ const Popular = () => {
       </div>
 
       <InfiniteScroll
-        dataLength={popular.length}
-        next={getPopular()}
+        dataLength={movie.length}
+        next={getMovie()}
         hasMore={hasMore}
         loader={<h1 className="text-white">Loading...</h1>}
       >
-        <Cards data={popular} title={category} />
+        <Cards data={movie} title={category} />
       </InfiniteScroll>
     </div>
   ) : (
@@ -79,4 +79,4 @@ const Popular = () => {
   );
 };
 
-export default Popular;
+export default Movie;

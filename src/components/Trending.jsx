@@ -8,6 +8,8 @@ import Loading from "./Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const Trending = () => {
+  document.title = "Prescreen | Trending";
+
   const [category, setCategory] = useState("all");
   const [duration, setDuration] = useState("day");
   const [trending, setTrending] = useState([]);
@@ -32,8 +34,6 @@ const Trending = () => {
     }
   };
 
-  console.log(trending);
-
   const refreshHandler = () => {
     if (trending.length === 0) getTrending();
     else {
@@ -47,7 +47,7 @@ const Trending = () => {
     refreshHandler();
   }, [category, duration]);
 
-  return trending ? (
+  return trending.length > 0 ? (
     <div className="w-screen h-screen px-[3%] py-[1%] overflow-hidden overflow-y-auto">
       <div className="w-full flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-zinc-300">
