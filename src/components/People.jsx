@@ -51,7 +51,7 @@ const People = () => {
             onClick={() => navigate(-1)}
             className="hover:text-[#6556CD] ri-arrow-left-line"
           ></i>{" "}
-          TV Shows
+          Person
         </h1>
         <div className="w-[80%] flex items-center">
           <Topnav />
