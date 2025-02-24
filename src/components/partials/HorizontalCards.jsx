@@ -9,7 +9,9 @@ const HorizontalCards = ({ data }) => {
           >
             <img
               className="h-[50%] w-full object-cover rounded-md"
-              src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`}
+              src={`https://image.tmdb.org/t/p/original/${
+                data.backdrop_path || data.poster_path
+              }`}
               alt=""
             />
             <div className="w-full h-[50%] p-2 text-white">
