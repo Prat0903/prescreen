@@ -4,7 +4,9 @@ const Header = ({ data }) => {
   return (
     <div
       style={{
-        background: `linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.6),rgba(0,0,0,.9)), url(https://image.tmdb.org/t/p/original/${data.backdrop_path})`,
+        background: `linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.6),rgba(0,0,0,.9)), url(https://image.tmdb.org/t/p/original/${
+          data.backdrop_path || data.poster_path
+        })`,
         backgroundSize: "cover",
         backgroundPosition: "100% 15%",
       }}
@@ -15,7 +17,12 @@ const Header = ({ data }) => {
       </h1>
       <p className="w-[50%] mt-1 mb-2 text-white">
         {data.overview.slice(0, 200)} ...
-        <Link className="text-blue-500">more</Link>
+        <Link
+          to={`/${data.media_type}/details/${data.id}`}
+          className="text-blue-500"
+        >
+          more
+        </Link>
       </p>
       <p className="text-white">
         <i className="ri-megaphone-fill text-amber-500"></i>
