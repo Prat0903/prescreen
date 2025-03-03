@@ -22,6 +22,10 @@
   font-family: pp woodland;
 }
 
+.movie-title{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 select {
   -webkit-appearance: none;
   -moz-appearance: none;

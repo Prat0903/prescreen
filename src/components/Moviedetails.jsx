@@ -4,11 +4,12 @@ import {
   asyncLoadMovieDetail,
   removeMovieDetail,
 } from "../store/actions/movieActions";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Loading from "./Loading";
 
 const Moviedetails = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { id } = useParams();
   const { info } = useSelector((state) => state.movie);
   const dispatch = useDispatch();
@@ -28,9 +29,10 @@ const Moviedetails = () => {
         backgroundSize: "cover",
         backgroundPosition: "100% 15%",
       }}
-      className="w-screen h-screen px-[8%]"
+      className="w-screen h-screen px-[7%]"
     >
       <div></div>
+      {/* Navigation */}
       <nav className="w-full h-[6vh] text-zinc-300 flex items-center gap-6 text-xl">
         <Link
           onClick={() => navigate(-1)}
@@ -53,40 +55,60 @@ const Moviedetails = () => {
         </a>
       </nav>
 
-      <div className="w-full flex">
+      {/* Banner & Details */}
+      <div className="w-full flex mt-2">
         <img
-          className="shadow-xl h-72 object-cover"
+          className="shadow-xl h-[52vh] object-cover"
           src={`https://image.tmdb.org/t/p/original/${
             info.detail.poster_path || info.detail.backdrop_path
           })`}
           alt=""
         />
 
-        <div className="content ml-5">
-          <h1 className="text-5xl font-bold text-zinc-300">
+        <div className="content ml-7 text-white">
+          <h1 className="movie-title text-4xl font-bold text-zinc-300">
             {info.detail.original_title || info.detail.name}
           </h1>
 
-          <div className="flex text-white items-center gap-x-3 mt-2">
-            <h1 className="text-lg font-semibold">User Score</h1>
-            <span className="text-white w-[6vh] h-[6vh] bg-amber-500 rounded-full flex justify-center items-center">
+          <h1 className="text-white italic font-semibold">
+            {info.detail.tagline}
+          </h1>
+
+          <div className="flex text-white items-center gap-x-3 mt-1">
+            <h1 className="font-semibold">User Score</h1>
+            <span className="w-[5.5vh] h-[5.5vh] bg-amber-500 rounded-full flex justify-center items-center">
               {(info.detail.vote_average * 10).toFixed()} <sup>%</sup>
             </span>
             <span className="text-[6px]">
               <i className="ri-circle-fill"></i>
             </span>
-            <h1>{info.detail.release_date}</h1>
+            <h1 className="text-sm">{info.detail.release_date}</h1>
             <span className="text-[6px]">
               <i className="ri-circle-fill"></i>
             </span>
-            <h1 className="text-lg font-medium">
+            <h1 className="font-medium">
               {info.detail.genres.map((genre) => genre.name).join(", ")}
             </h1>
             <span className="text-[6px]">
               <i className="ri-circle-fill"></i>
             </span>
-            <h1>{info.detail.runtime} min</h1>
+            <h1 className="text-sm">{info.detail.runtime} min</h1>
           </div>
+          <h1 className="text-white text-lg mt-1 mb-0.5 font-medium">
+            Overview
+          </h1>
+          <p className="text-[15px]">{info.detail.overview}</p>
+          <h1 className="text-white text-lg mt-2 mb-0.5 font-medium">
+            Translated in
+          </h1>
+          <p className="text-[15px] mb-6">{info.translations.join(", ")}</p>
+          <Link
+            to={`/${pathname}/trailer`}
+            className="bg-[#6556CD] p-3 rounded-lg"
+          >
+            <i className="ri-play-fill mr-1.5"></i>
+            Play Trailer
+          </Link>
         </div>
       </div>
 
