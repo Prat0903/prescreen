@@ -4,8 +4,15 @@ import {
   asyncLoadMovieDetail,
   removeMovieDetail,
 } from "../store/actions/movieActions";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import Loading from "./Loading";
+import HorizontalCards from "./partials/HorizontalCards";
 
 const Moviedetails = () => {
   const navigate = useNavigate();
@@ -20,7 +27,7 @@ const Moviedetails = () => {
     return () => {
       dispatch(removeMovieDetail());
     };
-  }, []);
+  }, [id]);
 
   return info ? (
     <div
@@ -29,27 +36,31 @@ const Moviedetails = () => {
         backgroundSize: "cover",
         backgroundPosition: "100% 15%",
       }}
-      className="w-screen h-screen px-[7%]"
+      className="w-screen h-[140vh] px-[7%] relative"
     >
-      <div></div>
       {/* Navigation */}
-      <nav className="w-full h-[6vh] text-zinc-300 flex items-center gap-6 text-xl">
+      <nav className="w-full h-[6vh] text-zinc-300 flex items-center gap-6 text-xl mt-1 ml-2">
+        <Link
+          to="/"
+          className="ri-home-2-line hover:text-[#6556CD] text-xl"
+        ></Link>
         <Link
           onClick={() => navigate(-1)}
-          className="hover:text-[#6556CD] ri-arrow-left-line text-2xl"
+          className="hover:text-[#6556CD] ri-arrow-left-line text-xl"
         ></Link>
         <a href={info.detail.homepage} target="_blank">
-          <i className="ri-external-link-fill"></i>
+          <i className="ri-external-link-fill text-xl"></i>
         </a>
         <a
           href={`https://www.wikidata.org/wiki/${info.externalId.wikidata_id}`}
           target="_blank"
         >
-          <i className="ri-earth-fill"></i>
+          <i className="ri-earth-fill text-xl"></i>
         </a>
         <a
           href={`https://www.imdb.com/title/${info.externalId.imdb_id}`}
           target="_blank"
+          className="text-xl"
         >
           imdb
         </a>
@@ -58,7 +69,7 @@ const Moviedetails = () => {
       {/* Banner & Details */}
       <div className="w-full flex mt-2">
         <img
-          className="shadow-xl h-[52vh] object-cover"
+          className="shadow-xl h-[51vh] object-cover"
           src={`https://image.tmdb.org/t/p/original/${
             info.detail.poster_path || info.detail.backdrop_path
           })`}
@@ -94,16 +105,16 @@ const Moviedetails = () => {
             </span>
             <h1 className="text-sm">{info.detail.runtime} min</h1>
           </div>
-          <h1 className="text-white text-lg mt-1 mb-0.5 font-medium">
+          <h1 className="text-[#ffa640] text-xl mt-1 mb-0.5 font-medium">
             Overview
           </h1>
           <p className="text-[15px]">{info.detail.overview}</p>
-          <h1 className="text-white text-lg mt-2 mb-0.5 font-medium">
+          <h1 className="text-[#ffa640] text-xl mt-2 mb-0.5 font-medium">
             Translated in
           </h1>
           <p className="text-[15px] mb-6">{info.translations.join(", ")}</p>
           <Link
-            to={`/${pathname}/trailer`}
+            to={`${pathname}/trailer`}
             className="bg-[#6556CD] p-3 rounded-lg"
           >
             <i className="ri-play-fill mr-1.5"></i>
@@ -113,7 +124,7 @@ const Moviedetails = () => {
       </div>
 
       {/* Available on */}
-      <div className="w-3/4 mt-8">
+      <div className="w-3/4 mt-8 mb-10">
         {info.watchProviders && info.watchProviders.buy && (
           <div className="flex gap-x-5 items-center text-white mb-5">
             <h1 className="text-lg font-semoibold">Available to Buy</h1>
@@ -159,6 +170,18 @@ const Moviedetails = () => {
           </div>
         )}
       </div>
+
+      {/* Recommendation */}
+      <hr className="border-gray-400 mb-5 h-[2px]" />
+      <h1 className="text-3xl text-white font-bold ml-3 mb-2">
+        More like this
+      </h1>
+      <HorizontalCards
+        data={
+          info.recommendations.length > 0 ? info.recommendations : info.similar
+        }
+      />
+      <Outlet />
     </div>
   ) : (
     <Loading />

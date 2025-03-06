@@ -26,6 +26,10 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.seasons{
+  font-family: monospace;
+}
+
 select {
   -webkit-appearance: none;
   -moz-appearance: none;

@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 
 const HorizontalCards = ({ data }) => {
   return (
-    <div className="w-full h-[40vh] flex overflow-y-hidden mx-2.5">
+    <div className="w-full h-[45vh] flex overflow-y-hidden mx-2.5">
       {data.map((data, index) => {
         return (
           <Link
-            to={`${data.media_type}/details/${data.id}`}
+            to={`/${data.media_type}/details/${data.id}`}
             key={index}
             className="min-w-[15%] bg-zinc-700 mr-5 mb-5 rounded-md"
           >
