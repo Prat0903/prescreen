@@ -30,6 +30,14 @@
   font-family: monospace;
 }
 
+.detail{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.person{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
 select {
   -webkit-appearance: none;
   -moz-appearance: none;

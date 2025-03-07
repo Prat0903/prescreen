@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import noimage from "/noimage.jpg";
 
 const Cards = ({ data, title }) => {
   return (
@@ -11,9 +12,13 @@ const Cards = ({ data, title }) => {
         >
           <img
             className="shadow-xl w-60 h-60 object-cover"
-            src={`https://image.tmdb.org/t/p/original/${
+            src={
               card.poster_path || card.backdrop_path || card.profile_path
-            })`}
+                ? `https://image.tmdb.org/t/p/original/${
+                    card.poster_path || card.backdrop_path || card.profile_path
+                  })`
+                : noimage
+            }
             alt=""
           />
           <h1 className="mt-3 text-lg text-zinc-300 font-semibold">

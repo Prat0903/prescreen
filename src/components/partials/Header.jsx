@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = ({ data }) => {
   return (
@@ -30,7 +30,10 @@ const Header = ({ data }) => {
         <i className="ri-album-fill text-amber-500 ml-4"></i>
         {data.media_type.toUpperCase()}
       </p>
-      <Link className="text-white bg-[#6556CD] mt-4 p-3 rounded">
+      <Link
+        to={`/${data.media_type}/details/${data.id}/trailer`}
+        className="text-white bg-[#6556CD] mt-4 p-3 rounded"
+      >
         Watch Trailer
       </Link>
     </div>
