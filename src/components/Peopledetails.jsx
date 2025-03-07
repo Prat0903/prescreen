@@ -1,26 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   asyncLoadPersonDetail,
   removePersonDetail,
 } from "../store/actions/peopleActions";
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "./Loading";
 import HorizontalCards from "./partials/HorizontalCards";
+import Dropdown from "./partials/Dropdown";
 
 const Peopledetails = () => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const { id } = useParams();
   const { info } = useSelector((state) => state.people);
   const dispatch = useDispatch();
-  console.log(info);
+  const [category, setCategory] = useState("movie");
 
   useEffect(() => {
     dispatch(asyncLoadPersonDetail(id));
@@ -30,7 +24,7 @@ const Peopledetails = () => {
   }, [id]);
 
   return info ? (
-    <div className="w-full px-[5%] bg-[#1F1E24] h-[140vh]">
+    <div className="w-full px-[5%] bg-[#1F1E24] h-[200vh]">
       {/* Navigation */}
       <nav className="w-full h-[6vh] text-zinc-300 flex items-center gap-6 text-xl mt-1 ml-2">
         <Link
@@ -136,6 +130,32 @@ const Peopledetails = () => {
             Worked In
           </h1>
           <HorizontalCards data={info.combinedCredits.cast} />
+
+          <div className="w-full flex justify-between">
+            <h1 className="detail text-xl font-medium text-[#ffa640] mt-4 ml-3">
+              Credits
+            </h1>
+
+            <Dropdown
+              title="Category"
+              options={["tv", "movie"]}
+              func={(e) => setCategory(e.target.value)}
+            />
+          </div>
+
+          <div className="w-full h-[60vh] mt-5 ml-3 overflow-y-auto shadow-xl shadow-[rgba(255,255,255,.3)] border-2 border-zinc-800 text-zinc-400">
+            {info[category + "Credits"].cast.map((c, index) => (
+              <li
+                key={index}
+                className="cursor-pointer hover:text-white hover:bg-[#19191d] duration-300 p-5"
+              >
+                <Link to={`/${category}/details/${c.id}`}>
+                  <span>{c.original_title || c.name}</span>
+                  <span className="block ml-5">{c.character}</span>
+                </Link>
+              </li>
+            ))}
+          </div>
         </div>
       </div>
     </div>

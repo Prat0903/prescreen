@@ -17,7 +17,6 @@ const Tvdetails = () => {
   const { id } = useParams();
   const { info } = useSelector((state) => state.tv);
   const dispatch = useDispatch();
-  console.log(info);
 
   useEffect(() => {
     dispatch(asyncLoadTvDetail(id));
@@ -46,18 +45,18 @@ const Tvdetails = () => {
           className="hover:text-[#6556CD] ri-arrow-left-line text-xl"
         ></Link>
         <a href={info.detail.homepage} target="_blank">
-          <i className="ri-external-link-fill text-xl"></i>
+          <i className="ri-external-link-fill text-xl hover:text-[#FFF0BD]"></i>
         </a>
         <a
           href={`https://www.wikidata.org/wiki/${info.externalId.wikidata_id}`}
           target="_blank"
         >
-          <i className="ri-earth-fill text-xl"></i>
+          <i className="ri-earth-fill text-xl hover:text-[#339966]"></i>
         </a>
         <a
           href={`https://www.imdb.com/title/${info.externalId.imdb_id}`}
           target="_blank"
-          className="text-xl"
+          className="text-xl hover:text-[#F5C518]"
         >
           imdb
         </a>
