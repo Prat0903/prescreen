@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "./partials/Header";
-import SideNav from "./partials/SideNav";
+import SideNav from "./partials/Sidenav";
 import Topnav from "./partials/Topnav";
 import axios from "../utils/axios";
 import HorizontalCards from "./partials/HorizontalCards";
